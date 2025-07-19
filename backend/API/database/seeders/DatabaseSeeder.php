@@ -13,11 +13,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+       
+    // Napravi tačno 2 korisnika
+    $users = \App\Models\User::factory()->count(2)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+    // Napravi 5 soba
+    $rooms = \App\Models\Room::factory(5)->create();
+
+    // Za svaku sobu, napravi po 2–4 uređaja
+    $rooms->each(function ($room) use ($users) {
+        $devices = \App\Models\Device::factory(rand(2, 4))->create([
+            'room_id' => $room->id,
         ]);
+
+        // Za svaki uređaj, napravi 3–5 akcija sa random user-om
+        $devices->each(function ($device) use ($users) {
+            \App\Models\ActionLog::factory(rand(3, 5))->create([
+                'device_id' => $device->id,
+                'user_id' => $users->random()->id,
+            ]);
+        });
+    });
     }
 }
