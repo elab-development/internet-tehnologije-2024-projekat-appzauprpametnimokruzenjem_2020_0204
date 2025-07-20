@@ -16,12 +16,12 @@ class ActionLogResource extends JsonResource
     {
         return [
             'id'           => $this->id,
-            'user_id'      => $this->user_id,
-            'device_id'    => $this->device_id,
+            'user'      => $this->user?->name,
+            'device'    => $this->device?->name,
             'action'       => $this->action,
             'performed_at' => $this->performed_at
-                ? $this->performed_at->format('d.m.Y')
-                : null,
+                    ? \Carbon\Carbon::parse($this->performed_at)->format('d.m.Y')
+                    : null,
             // promenili smo format i izbacili datume kada su kreirani i apdejtovani podaci da se ne bi zbunili
         ];
     }
