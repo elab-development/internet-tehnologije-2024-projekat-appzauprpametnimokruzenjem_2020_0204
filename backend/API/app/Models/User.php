@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // dodato zbog pristupa - admin, standard, guest
     ];
 
     /**
@@ -50,6 +51,23 @@ class User extends Authenticatable
     public function actionLogs()
     {
         return $this->hasMany(ActionLog::class);
+    }
+
+    // helper metode
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isStandard(): bool
+    {
+        return $this->role === 'standard';
+    }
+
+    public function isGuest(): bool
+    {
+        return $this->role === 'guest';
     }
 
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController; // ako želiš GET /users
 
 // UNPROTECTED ROUTES (javno dostupne bez login-a)
 
@@ -13,38 +14,43 @@ use App\Http\Controllers\AuthController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// Read-only access (npr. za javni prikaz uređaja/soba/logova)
+// Public GET access (Rooms i Devices)
 Route::get('/rooms', [RoomController::class, 'index']);
 Route::get('/rooms/{id}', [RoomController::class, 'show']);
 Route::get('/devices', [DeviceController::class, 'index']);
 Route::get('/devices/{id}', [DeviceController::class, 'show']);
-Route::get('/logs', [ActivityLogController::class, 'index']);
-Route::get('/logs/{id}', [ActivityLogController::class, 'show']);
 
-// PROTECTED ROUTES (zahtevaju login tj. autentifikaciju)
-
+// PROTECTED ROUTES (za sve ulogovane korisnike)
 Route::middleware('auth:sanctum')->group(function () {
 
-    // Auth: Logout
+    // Logout
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    // Rooms (Create, Update, Delete)
+    // Rooms (CREATE, UPDATE, DELETE)
     Route::post('/rooms', [RoomController::class, 'store']);
     Route::put('/rooms/{id}', [RoomController::class, 'update']);
     Route::delete('/rooms/{id}', [RoomController::class, 'destroy']);
 
-    // Devices (Create, Update, Delete)
+    // Devices (CREATE, UPDATE, DELETE)
     Route::post('/devices', [DeviceController::class, 'store']);
     Route::put('/devices/{id}', [DeviceController::class, 'update']);
     Route::delete('/devices/{id}', [DeviceController::class, 'destroy']);
 
-    // Logs (Create, Update, Delete)
-    Route::post('/logs', [ActivityLogController::class, 'store']);
-    Route::put('/logs/{id}', [ActivityLogController::class, 'update']);
-    Route::delete('/logs/{id}', [ActivityLogController::class, 'destroy']);
-
-    // Get za usera
+    // Dohvatanje sopstvenog profila
     Route::get('/user', function (Request $request) {
         return $request->user();
+    });
+
+    // PROTECTED ADMIN ROUTES
+    Route::middleware('role:admin')->group(function () {
+
+        // Logs (GET, CREATE, UPDATE, DELETE)
+        Route::get('/logs', [ActivityLogController::class, 'index']);
+        Route::get('/logs/{id}', [ActivityLogController::class, 'show']);
+        Route::post('/logs', [ActivityLogController::class, 'store']);
+        Route::put('/logs/{id}', [ActivityLogController::class, 'update']);
+        Route::delete('/logs/{id}', [ActivityLogController::class, 'destroy']);
+
+        
     });
 });
