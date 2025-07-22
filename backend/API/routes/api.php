@@ -6,7 +6,12 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController; // ako želiš GET /users
+use App\Http\Controllers\UserController; // možda posle za GET users
+use Illuminate\Support\Facades\Http; // za spoljašne APIs
+
+// VREME RUTA
+Route::get('/weather', [App\Http\Controllers\WeatherController::class, 'index']);
+
 
 // UNPROTECTED ROUTES (javno dostupne bez login-a)
 
@@ -53,4 +58,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
         
     });
+
+    
 });
