@@ -28,8 +28,15 @@ class RoomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
+    public function show($id){
+        $room = Room::with('devices')->find($id);
+
+        if (!$room) {
+            return response()->json([
+                'message' => "Soba sa ID {$id} nije pronađena."
+            ], 404);
+        }
+
         return new RoomResource($room);
     }
 
@@ -50,4 +57,12 @@ class RoomController extends Controller
         $room->delete();
         return response()->json(null, 204);
     }
+
+    // nested rute
+    public function devices($id)
+    {
+        $room = Room::with('devices')->findOrFail($id);
+        return response()->json($room->devices);
+    }
+
 }

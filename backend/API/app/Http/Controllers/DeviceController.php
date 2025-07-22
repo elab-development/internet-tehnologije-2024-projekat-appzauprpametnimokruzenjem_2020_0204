@@ -21,15 +21,33 @@ class DeviceController extends Controller
      */
     public function store(Request $request)
     {
-        $device = Device::create($request->all());
-        return new DeviceResource($device);
+        $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'room_id' => 'required|exists:rooms,id',
+    ]);
+
+    $device = Device::create([
+        'name' => $validated['name'],
+        'room_id' => $validated['room_id'],
+        'user_id' => $request->user()->id, // ovo dodeljuje aktivnog korisnika
+    ]);
+
+    return new DeviceResource($device);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
+        $device = Device::with('room')->find($id);
+
+        if (!$device) {
+            return response()->json([
+                'message' => "Uređaj sa ID {$id} nije pronađen."
+            ], 404);
+        }
+
         return new DeviceResource($device);
     }
 
@@ -50,4 +68,12 @@ class DeviceController extends Controller
         $device->delete();
         return response()->json(null, 204);
     }
+
+    // nested rute
+    public function byUser($userId)
+    {
+        $devices = Device::where('user_id', $userId)->get();
+        return response()->json($devices);
+    }
+
 }

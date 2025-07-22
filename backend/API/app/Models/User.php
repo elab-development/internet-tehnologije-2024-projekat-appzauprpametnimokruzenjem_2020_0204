@@ -70,4 +70,10 @@ class User extends Authenticatable
         return $this->role === 'guest';
     }
 
+    // za ugnježdene rute
+    public function devices()
+    {
+        return $this->hasMany(Device::class);
+    }
+
 }
