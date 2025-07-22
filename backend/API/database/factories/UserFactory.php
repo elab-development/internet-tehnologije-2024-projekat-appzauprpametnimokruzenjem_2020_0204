@@ -23,11 +23,14 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = \Faker\Factory::create('hr_HR'); // zbog frontenda, bolje je latinično generisano
+
         return [
-            'name' => fake()->name(),
+            'name' => $faker->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'role' => 'standard',
             'remember_token' => Str::random(10),
         ];
     }

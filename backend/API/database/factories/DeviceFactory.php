@@ -19,10 +19,11 @@ class DeviceFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(['Svetlana', 'Borko', 'Marijana', 'Časlav', 'Vesna']),
+            'name' => $this->faker->randomElement(['Svetlana', 'Borko', 'Marijana', 'Časlav', 'Vesna', 'Tanja', 'Neša', 'Nađa', 'Lenka', 'Žarko', 'Minja']),
             'type' => $this->faker->randomElement(['sijalica', 'termostat', 'kamera', 'brava', 'senzor']),
             'status' => $this->faker->randomElement(['uključeno', 'isključeno']),
             'room_id' => Room::factory(),
+            'user_id' => \App\Models\User::factory(),
         ];
     }
 }

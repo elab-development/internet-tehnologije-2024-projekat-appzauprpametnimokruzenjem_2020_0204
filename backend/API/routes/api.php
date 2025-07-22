@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http; // za spoljašne APIs
 
 // UNPROTECTED ROUTES (javno dostupne bez login-a)
 
+
 // Auth: Register & Login
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -21,6 +22,17 @@ Route::get('/rooms', [RoomController::class, 'index']);
 Route::get('/rooms/{id}', [RoomController::class, 'show']);
 Route::get('/devices', [DeviceController::class, 'index']);
 Route::get('/devices/{id}', [DeviceController::class, 'show']);
+
+// VREME RUTA
+Route::get('/weather', [App\Http\Controllers\WeatherController::class, 'index']);
+
+// Ugnježdene rute (nested)
+
+// GET svi uređaji iz jedne sobe
+Route::get('/rooms/{room}/devices', [RoomController::class, 'devices']);
+
+// GET svi uređaji koje je kreirao korisnik
+Route::get('/users/{user}/devices', [DeviceController::class, 'byUser']);
 
 // PROTECTED ROUTES (za sve ulogovane korisnike)
 Route::middleware('auth:sanctum')->group(function () {
@@ -57,14 +69,3 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
 });
-
-// VREME RUTA
-Route::get('/weather', [App\Http\Controllers\WeatherController::class, 'index']);
-
-// Ugnježdene rute (nested)
-
-// GET svi uređaji iz jedne sobe
-Route::get('/rooms/{room}/devices', [RoomController::class, 'devices']);
-
-// GET svi uređaji koje je kreirao korisnik
-Route::get('/users/{user}/devices', [DeviceController::class, 'byUser']);

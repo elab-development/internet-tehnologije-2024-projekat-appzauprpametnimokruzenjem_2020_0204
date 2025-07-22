@@ -22,7 +22,7 @@ class ActionLogFactory extends Factory
             'user_id' => User::factory(),
             'device_id' => Device::factory(),
             'action' => $this->faker->randomElement([
-                'uključeno', 'isključeno', 'promenjena jačina', 'podešena temperatura'
+                'uključeno', 'isključeno'
             ]),
             'performed_at' => $this->faker->dateTimeBetween('-5 days', 'now'),
         ];
