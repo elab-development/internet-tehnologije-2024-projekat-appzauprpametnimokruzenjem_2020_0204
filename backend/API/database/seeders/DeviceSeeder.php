@@ -19,7 +19,7 @@ class DeviceSeeder extends Seeder
         $users = User::all();
 
         foreach ($rooms as $room) {
-            Device::factory(rand(20, 40))->create([
+            Device::factory(rand(2, 7))->create([
                 'room_id' => $room->id,
                 'user_id' => $users->random()->id,
             ]);

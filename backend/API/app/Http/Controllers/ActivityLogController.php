@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ActionLog;
 use Illuminate\Http\Request;
 use App\Http\Resources\ActionLogResource;
+use Illuminate\Support\Facades\Response;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ActivityLogController extends Controller
 {
@@ -50,4 +52,55 @@ class ActivityLogController extends Controller
         $activityLog->delete();
         return response()->json(null, 204);
     }
+
+    public function exportCsv()
+{
+    $logs = \App\Models\ActionLog::with(['user', 'device'])->get();
+
+    $csvData = [];
+
+    // Header
+    $csvData[] = ['ID', 'Korisnik', 'Uređaj', 'Tip', 'Akcija', 'Vreme izvršavanja'];
+
+    // Podaci
+    foreach ($logs as $log) {
+        $csvData[] = [
+            $log->id,
+            $log->user?->name ?? '?',
+            $log->device?->name ?? '?',
+            $log->device?->type ?? '?',
+            $log->action,
+            $log->performed_at,
+        ];
+    }
+
+    // Pretvaranje u CSV string
+    $filename = 'izveštaj_' . now()->format('Y_m_d_His') . '.csv';
+
+    $handle = fopen('php://temp', 'r+');
+    foreach ($csvData as $row) {
+        fputcsv($handle, $row);
+    }
+    rewind($handle);
+    $csv = stream_get_contents($handle);
+    fclose($handle);
+
+    return Response::make($csv, 200, [
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => "attachment; filename=\"$filename\"",
+    ]);
+   
+}
+ // Pretvaranje u PDF
+    public function exportPdf()
+    {
+        ini_set('memory_limit', '500M');// za vecu bazu
+
+        $logs = \App\Models\ActionLog::with(['user', 'device'])->get();
+        $pdf = Pdf::loadView('logs.pdf', compact('logs'));
+        $filename = 'izveštaj_' . now()->format('Y_m_d_His') . '.pdf';
+
+        return $pdf->download($filename);
+    }
+
 }

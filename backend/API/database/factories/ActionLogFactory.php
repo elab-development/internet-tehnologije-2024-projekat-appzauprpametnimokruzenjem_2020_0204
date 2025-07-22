@@ -24,7 +24,7 @@ class ActionLogFactory extends Factory
             'action' => $this->faker->randomElement([
                 'uključeno', 'isključeno'
             ]),
-            'performed_at' => $this->faker->dateTimeBetween('-5 days', 'now'),
+            'performed_at' => $this->faker->dateTimeBetween('-30 days', 'now'),
         ];
     }
 }

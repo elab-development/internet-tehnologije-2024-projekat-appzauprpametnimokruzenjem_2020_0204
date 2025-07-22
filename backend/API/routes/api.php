@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Http; // za spoljašne APIs
 
 // UNPROTECTED ROUTES (javno dostupne bez login-a)
 
-
 // Auth: Register & Login
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -69,3 +68,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
 });
+
+Route::get('/logs/export/csv', [ActivityLogController::class, 'exportCsv']);
+Route::get('/logs/export/pdf', [ActivityLogController::class, 'exportPdf']);
+Route::get('/logs', [ActivityLogController::class, 'index']);
