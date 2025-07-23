@@ -14,6 +14,7 @@ const Navbar = () => {
       <Link to="/uredjaji" style={{ color: '#fff', textDecoration: 'none' }}>Uređaji</Link>
       <Link to="/sobe" style={{ color: '#fff', textDecoration: 'none' }}>Sobe</Link>
       <Link to="/logovi" style={{ color: '#fff', textDecoration: 'none' }}>Logovi</Link>
+      <Link to="/korisnici" style={{ color: '#fff', textDecoration: 'none' }}>Korisnici</Link>
     </nav>
   );
 };

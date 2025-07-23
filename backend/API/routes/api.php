@@ -29,9 +29,10 @@ Route::get('/weather', [App\Http\Controllers\WeatherController::class, 'index'])
 
 // GET svi uređaji iz jedne sobe
 Route::get('/rooms/{room}/devices', [RoomController::class, 'devices']);
-
 // GET svi uređaji koje je kreirao korisnik
-Route::get('/users/{user}/devices', [DeviceController::class, 'byUser']);
+Route::get('/users/{user}/devices', [UserController::class, 'devices']);
+// GET svih logova jednog korisnika
+Route::get('/users/{user}/logs', [UserController::class, 'logs']);
 
 // PROTECTED ROUTES (za sve ulogovane korisnike)
 Route::middleware('auth:sanctum')->group(function () {
@@ -57,6 +58,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // PROTECTED ADMIN ROUTES
     Route::middleware('role:admin')->group(function () {
 
+        // Users GET
+        Route::get('/users', [UserController::class, 'index']);
+
         // Logs (GET, CREATE, UPDATE, DELETE)
         Route::get('/logs', [ActivityLogController::class, 'index']);
         Route::get('/logs/{id}', [ActivityLogController::class, 'show']);
@@ -64,7 +68,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/logs/{id}', [ActivityLogController::class, 'update']);
         Route::delete('/logs/{id}', [ActivityLogController::class, 'destroy']);
 
-        
+        // export rute za poverljive podatke
+        Route::get('/logs/export/pdf', [ActivityLogController::class, 'exportPdf']);
+        Route::get('/logs/export/csv', [ActivityLogController::class, 'exportCsv']);
+
     });
 
 });
@@ -72,7 +79,9 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/logs/export/csv', [ActivityLogController::class, 'exportCsv']);
 Route::get('/logs/export/pdf', [ActivityLogController::class, 'exportPdf']);
 Route::get('/logs', [ActivityLogController::class, 'index']);
+Route::get('/users', [UserController::class, 'index']);
 
+// test za uvezivanje UI i API
 Route::get('/ping', function () {
     return response()->json(['message' => 'API radi!']);
 });

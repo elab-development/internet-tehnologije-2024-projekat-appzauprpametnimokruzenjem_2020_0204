@@ -48,9 +48,20 @@ class User extends Authenticatable
         ];
     }
 
+    // 0-M veza prema rooms
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
+    // 0-M veza prema logs
     public function actionLogs()
     {
         return $this->hasMany(ActionLog::class);
+    }
+    // 0-M veza uređaji
+    public function devices()
+    {
+        return $this->hasMany(Device::class);
     }
 
     // helper metode
@@ -70,10 +81,6 @@ class User extends Authenticatable
         return $this->role === 'guest';
     }
 
-    // za ugnježdene rute
-    public function devices()
-    {
-        return $this->hasMany(Device::class);
-    }
+    
 
 }

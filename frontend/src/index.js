@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import Devices from './pages/Devices';
 import Rooms from './pages/Rooms';
 import Logs from './pages/Logs';
+import Users from './pages/Users';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,6 +22,7 @@ root.render(
           <Route path="uredjaji" element={<Devices />} />
           <Route path="sobe" element={<Rooms />} />
           <Route path="logovi" element={<Logs />} />
+          <Route path="korisnici" element={<Users />} />
         </Route>
       </Routes>
     </BrowserRouter>

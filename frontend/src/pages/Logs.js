@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../api/axios';
 import '../components/TableStyles.css';
+import Loading from '../components/Loading';
 
 const Logs = () => {
   const [logs, setLogs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLogs = async () => {
@@ -15,15 +17,19 @@ const Logs = () => {
 
         setLogs(data);
       } catch (error) {
-        console.error('Greška prilikom dobavljanja logova:', error);
+        console.error('Greška prilikom učitavanju logova:', error);
+      }
+      finally {
+        setLoading(false);
       }
     };
 
     fetchLogs();
   }, []);
 
+  if (loading) return <Loading/>;
+
   return (
-    
     <div className="table">
       <h2>Akcioni logovi</h2>
       <table>
@@ -34,6 +40,7 @@ const Logs = () => {
             <th>Uređaj</th>
             <th>Tip</th>
             <th>Akcija</th>
+            <th>Soba</th>
             <th>Vreme izvršavanja</th>
           </tr>
         </thead>
@@ -45,6 +52,7 @@ const Logs = () => {
               <td>{log.device?.name ?? '-'}</td>
               <td>{log.device?.type ?? '-'}</td>
               <td>{log.action}</td>
+              <td>{log.device?.room?.name ?? '-'}</td>
               <td>{log.performed_at}</td>
             </tr>
           ))}
@@ -53,4 +61,5 @@ const Logs = () => {
     </div>
   );
 };
+
 export default Logs;

@@ -19,12 +19,10 @@ class ActionLogFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
-            'device_id' => Device::factory(),
-            'action' => $this->faker->randomElement([
-                'uključeno', 'isključeno'
-            ]),
-            'performed_at' => $this->faker->dateTimeBetween('-30 days', 'now'),
+            'user_id' => User::inRandomOrder()->first()->id,
+            'device_id' => Device::inRandomOrder()->first()->id,
+            'action' => $this->faker->randomElement(['uključeno', 'isključeno']),
+            'performed_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
         ];
     }
 }

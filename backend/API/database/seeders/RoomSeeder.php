@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Room;
+use App\Models\User;
 
 class RoomSeeder extends Seeder
 {
@@ -13,6 +14,10 @@ class RoomSeeder extends Seeder
      */
     public function run(): void
     {
-        Room::factory(20)->create();
+        User::all()->each(function ($user) {
+            Room::factory()
+                ->count(rand(1, 4))
+                ->create(['user_id' => $user->id]);
+        });
     }
 }

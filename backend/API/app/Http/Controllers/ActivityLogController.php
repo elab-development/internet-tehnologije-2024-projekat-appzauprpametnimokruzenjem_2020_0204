@@ -16,7 +16,7 @@ class ActivityLogController extends Controller
     public function index()
     {
         return ActionLogResource::collection(
-            ActionLog::with(['user', 'device'])
+            ActionLog::with(['user', 'device.room'])
                 ->orderBy('performed_at', 'desc') // uvek da se najnoviji pišu na vrhu
                 ->get()
         );

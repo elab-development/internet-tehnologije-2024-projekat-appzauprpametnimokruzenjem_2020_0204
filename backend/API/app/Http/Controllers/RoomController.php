@@ -13,7 +13,9 @@ class RoomController extends Controller
      */
     public function index()
     {
-        return RoomResource::collection(Room::with('devices')->get());
+        return RoomResource::collection(Room::with('devices')
+        ->orderBy('user','asc')
+        ->get());
     }
 
     /**

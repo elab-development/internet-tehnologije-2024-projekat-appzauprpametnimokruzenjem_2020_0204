@@ -9,13 +9,15 @@ class ActionLog extends Model
 {
     use HasFactory;
     
-    public function device()
-{
-    return $this->belongsTo(Device::class);
-}
+    // 1-1 prema useru
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-public function user()
-{
-    return $this->belongsTo(User::class);
-}
+    // 1-1 prema device
+    public function device()
+    {
+        return $this->belongsTo(Device::class);
+    }
 }

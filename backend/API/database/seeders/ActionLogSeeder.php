@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\ActionLog;
 use App\Models\Device;
 use App\Models\User;
+use App\Models\Room;
 
 class ActionLogSeeder extends Seeder
 {
@@ -15,14 +16,16 @@ class ActionLogSeeder extends Seeder
      */
     public function run(): void
     {
-        $devices = Device::all();
-        $users = User::all();
-
-        foreach ($devices as $device) {
-            ActionLog::factory(rand(10, 20))->create([
-                'device_id' => $device->id,
-                'user_id' => $users->random()->id,
-            ]);
-        }
+        Room::with('devices')->get()->each(function ($room) {
+            $user = $room->user;
+            foreach ($room->devices as $device) {
+                ActionLog::factory()
+                    ->count(rand(30, 60))
+                    ->create([
+                        'user_id' => $user->id,
+                        'device_id' => $device->id,
+                    ]);
+            }
+        });
     }
 }

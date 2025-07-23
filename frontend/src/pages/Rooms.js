@@ -1,7 +1,7 @@
-// src/pages/Rooms.js
 import React, { useEffect, useState } from 'react';
-import axios from '../api/axios';
+import axiosInstance from '../api/axios';
 import '../components/TableStyles.css';
+import Loading from '../components/Loading.js';
 
 const Rooms = () => {
   const [rooms, setRooms] = useState([]);
@@ -9,61 +9,61 @@ const Rooms = () => {
 
   useEffect(() => {
     const fetchRooms = async () => {
-  try {
-    const response = await axios.get('/rooms');
-    console.log('Odgovor:', response);
-    console.log('response.data:', response.data);
+      try {
+        const response = await axiosInstance.get('/rooms');
 
-    setRooms(response.data.data);
-  } catch (error) {
-    console.error('Greška pri dohvaćanju soba:', error);
-  } finally {
-    setLoading(false);
-  }
-};
+        const data = Array.isArray(response.data)
+          ? response.data
+          : response.data.data || [];
+
+        setRooms(data);
+      } catch (error) {
+        console.error('Greška prilikom dobavljanja soba:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     fetchRooms();
   }, []);
 
+  if (loading) return <Loading/>;
+
   return (
     <div className="table">
-      <h2>Sobe</h2>
-      {loading ? (
-        <p>Učitavanje...</p>
-      ) : rooms.length === 0 ? (
-        <p>Nema soba za prikaz.</p>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Naziv</th>
-              <th>Uređaji</th>
+      <h2>Lista Soba</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Naziv</th>
+            <th>Vlasnik</th>
+            <th>Uređaji</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rooms.map((room) => (
+            <tr key={room.id}>
+              <td>{room.id}</td>
+              <td>{room.name}</td>
+              <td>{room.user?.name ?? '-'}</td>
+              <td>
+                {room.devices && room.devices.length > 0 ? (
+                  <ul style={{ paddingLeft: '1rem', margin: 0 }}>
+                    {room.devices.map((device) => (
+                      <li key={device.id}>
+                        {device.name} ({device.type})
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  '-'
+                )}
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {rooms.map((room) => (
-              <tr key={room.id}>
-                <td>{room.id}</td>
-                <td>{room.name}</td>
-                <td>
-                  {room.devices && room.devices.length > 0 ? (
-                    <ul>
-                      {room.devices.map((device, index) => (
-                        <li key={index}>
-                          {device.name} / <i>{device.type}</i>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <span>Nema uređaja</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

@@ -13,7 +13,7 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        return DeviceResource::collection(Device::all());
+        return DeviceResource::collection(Device::with('room.user')->get());
     }
 
     /**
@@ -67,13 +67,6 @@ class DeviceController extends Controller
     {
         $device->delete();
         return response()->json(null, 204);
-    }
-
-    // nested rute
-    public function byUser($userId)
-    {
-        $devices = Device::where('user_id', $userId)->get();
-        return response()->json($devices);
     }
 
 }

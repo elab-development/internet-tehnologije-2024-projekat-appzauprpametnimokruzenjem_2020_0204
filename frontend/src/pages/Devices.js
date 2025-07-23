@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../api/axios';
 import '../components/TableStyles.css';
+import Loading from '../components/Loading';
 
 function Devices() {
   const [devices, setDevices] = useState([]);
@@ -27,7 +28,7 @@ function Devices() {
       });
   }, []);
 
-  if (loading) return <p>Učitavanje uređaja...</p>;
+  if (loading) return <Loading/>;
 
   return (
     <div className="table">
@@ -51,7 +52,7 @@ function Devices() {
                     <td>{device.type}</td>
                     <td>{device.status}</td>
                     <td>{device.room?.name ?? '-'}</td>
-                    <td>{device.user.name ?? '-'}</td>
+                    <td>{device.room?.user?.name ?? '-'}</td>
                 </tr>
                 ))}
             </tbody>

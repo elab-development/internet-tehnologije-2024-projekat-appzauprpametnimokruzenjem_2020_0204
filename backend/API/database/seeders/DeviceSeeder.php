@@ -15,14 +15,10 @@ class DeviceSeeder extends Seeder
      */
     public function run(): void
     {
-        $rooms = Room::all();
-        $users = User::all();
-
-        foreach ($rooms as $room) {
-            Device::factory(rand(2, 7))->create([
-                'room_id' => $room->id,
-                'user_id' => $users->random()->id,
-            ]);
-        }
+        Room::all()->each(function ($room) {
+            Device::factory()
+                ->count(rand(2, 5))
+                ->create(['room_id' => $room->id]);
+        });
     }
 }

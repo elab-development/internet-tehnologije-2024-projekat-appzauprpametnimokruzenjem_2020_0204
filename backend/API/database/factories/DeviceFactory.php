@@ -16,14 +16,16 @@ class DeviceFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
+    protected $model = Device::class;
+
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(['Svetlana', 'Borko', 'Marijana', 'Časlav', 'Vesna', 'Tanja', 'Neša', 'Nađa', 'Lenka', 'Žarko', 'Minja']),
-            'type' => $this->faker->randomElement(['sijalica', 'termostat', 'kamera', 'brava', 'senzor']),
+            'name' => $this->faker->randomElement(['Svetlana', 'Borko', 'Marijana', 'Časlav', 'Vesna', 'Tanja', 'Nebojša', 'Nađa', 'Lenka', 'Žarko', 'Minja']),
+            'type' => $this->faker->randomElement(['sijalica', 'ventilator', 'brava', 'senzor', 'zvučnik']),
             'status' => $this->faker->randomElement(['uključeno', 'isključeno']),
-            'room_id' => Room::factory(),
-            'user_id' => \App\Models\User::factory(),
+            'room_id' => Room::inRandomOrder()->first()->id,
         ];
     }
 }
