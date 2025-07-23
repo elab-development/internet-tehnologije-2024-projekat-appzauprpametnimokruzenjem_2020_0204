@@ -35,7 +35,7 @@ const Rooms = () => {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>room ID</th>
             <th>Naziv</th>
             <th>Vlasnik</th>
             <th>Uređaji</th>
@@ -44,7 +44,7 @@ const Rooms = () => {
         <tbody>
           {rooms.map((room) => (
             <tr key={room.id}>
-              <td>{room.id}</td>
+              <td style={{ textAlign: 'center' }}>{room.id}</td>
               <td>{room.name}</td>
               <td>{room.user?.name ?? '-'}</td>
               <td>

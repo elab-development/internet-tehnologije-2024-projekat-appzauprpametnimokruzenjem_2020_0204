@@ -8,6 +8,7 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController; // možda posle za GET users
 use Illuminate\Support\Facades\Http; // za spoljašne APIs
+use App\Http\Controllers\AdminStatsController; // za dashboard prikaz
 
 
 // UNPROTECTED ROUTES (javno dostupne bez login-a)
@@ -72,14 +73,23 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/logs/export/pdf', [ActivityLogController::class, 'exportPdf']);
         Route::get('/logs/export/csv', [ActivityLogController::class, 'exportCsv']);
 
+        // dashboard prikaz
+        Route::get('/admin/stats', [AdminStatsController::class, 'stats']);
+        Route::get('/admin/logs-chart', [AdminStatsController::class, 'logsChart']);
+        Route::get('/admin/devices-by-type', [AdminStatsController::class, 'devicesByType']);
+
     });
 
 });
 
+// kad imam admina brišem
 Route::get('/logs/export/csv', [ActivityLogController::class, 'exportCsv']);
 Route::get('/logs/export/pdf', [ActivityLogController::class, 'exportPdf']);
 Route::get('/logs', [ActivityLogController::class, 'index']);
 Route::get('/users', [UserController::class, 'index']);
+Route::get('/admin/stats', [AdminStatsController::class, 'stats']);
+Route::get('/admin/logs-chart', [AdminStatsController::class, 'logsChart']);
+Route::get('/admin/devices-by-type', [AdminStatsController::class, 'devicesByType']);
 
 // test za uvezivanje UI i API
 Route::get('/ping', function () {

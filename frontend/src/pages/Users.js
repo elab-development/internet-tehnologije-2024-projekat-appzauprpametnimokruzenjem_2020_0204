@@ -91,7 +91,7 @@ const Users = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <button style={{ padding: '8px 16px' }}>🧾 PDF</button>
+            <button style={{ padding: '8px 16px' }}>📄 PDF</button>
           </a>
         </div>
       </div>
@@ -116,7 +116,7 @@ const Users = () => {
               <tbody>
                 {devices.map(device => (
                   <tr key={device.id}>
-                    <td>{device.id}</td>
+                    <td style={{ textAlign: 'center' }}>{device.id}</td>
                     <td>{device.name}</td>
                     <td>{device.type}</td>
                     <td>{device.status}</td>
@@ -144,7 +144,7 @@ const Users = () => {
               <tbody>
                 {logs.map(log => (
                   <tr key={log.id}>
-                    <td>{log.id}</td>
+                    <td style={{ textAlign: 'center' }}>{log.id}</td>
                     <td>{log.device?.room?.name ?? '-'}</td>
                     <td>{log.device?.name ?? '-'}</td>
                     <td>{log.device?.type ?? '-'}</td>

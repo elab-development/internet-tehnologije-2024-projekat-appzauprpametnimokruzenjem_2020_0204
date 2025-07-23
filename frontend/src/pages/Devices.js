@@ -36,7 +36,7 @@ function Devices() {
         <table>
             <thead>
                 <tr>
-                <th>ID</th>
+                <th> device ID</th>
                 <th>Naziv</th>
                 <th>Tip</th>
                 <th>Status</th>
@@ -47,7 +47,7 @@ function Devices() {
             <tbody>
                 {devices.map(device => (
                 <tr key={device.id}>
-                    <td>{device.id}</td>
+                    <td style={{ textAlign: 'center' }}>{device.id}</td>
                     <td>{device.name}</td>
                     <td>{device.type}</td>
                     <td>{device.status}</td>

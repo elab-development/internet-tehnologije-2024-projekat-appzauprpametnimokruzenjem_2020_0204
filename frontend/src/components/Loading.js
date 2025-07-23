@@ -5,7 +5,7 @@ const Loading = () => {
     width: '48px',
     height: '48px',
     border: '20px solid #eee',
-    borderTop: '20px solid #34db5bff',
+    borderTop: '20px solid #64DED2',
     borderRadius: '100%',
     animation: 'spin 1s linear infinite',
   };

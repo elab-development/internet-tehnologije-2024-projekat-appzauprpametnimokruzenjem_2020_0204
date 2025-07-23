@@ -11,6 +11,7 @@ import Devices from './pages/Devices';
 import Rooms from './pages/Rooms';
 import Logs from './pages/Logs';
 import Users from './pages/Users';
+import Admin from './pages/Admin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,6 +24,7 @@ root.render(
           <Route path="sobe" element={<Rooms />} />
           <Route path="logovi" element={<Logs />} />
           <Route path="korisnici" element={<Users />} />
+          <Route path="admin" element={<Admin />} />
         </Route>
       </Routes>
     </BrowserRouter>

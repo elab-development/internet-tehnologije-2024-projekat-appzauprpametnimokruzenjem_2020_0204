@@ -14,7 +14,7 @@ class RoomController extends Controller
     public function index()
     {
         return RoomResource::collection(Room::with('devices')
-        ->orderBy('user','asc')
+        ->orderBy('user_id','Desc')
         ->get());
     }
 

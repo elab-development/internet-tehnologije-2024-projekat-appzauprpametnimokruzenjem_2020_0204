@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const AdminNavbar = () => {
   return (
     <nav style={{
-      backgroundColor: '#333',
+      backgroundColor: '#282828',
       padding: '10px',
       color: '#fff',
       display: 'flex',
       gap: '20px'
     }}>
-      <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Početna</Link>
+      <Link to="/admin" style={{ color: '#fff', textDecoration: 'none' }}>Početna</Link>
       <Link to="/uredjaji" style={{ color: '#fff', textDecoration: 'none' }}>Uređaji</Link>
       <Link to="/sobe" style={{ color: '#fff', textDecoration: 'none' }}>Sobe</Link>
       <Link to="/logovi" style={{ color: '#fff', textDecoration: 'none' }}>Logovi</Link>
@@ -19,4 +19,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default AdminNavbar;

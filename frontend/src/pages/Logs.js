@@ -35,7 +35,7 @@ const Logs = () => {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>log ID</th>
             <th>Korisnik</th>
             <th>Uređaj</th>
             <th>Tip</th>
@@ -47,7 +47,7 @@ const Logs = () => {
         <tbody>
           {logs.map((log) => (
             <tr key={log.id}>
-              <td>{log.id}</td>
+              <td style={{ textAlign: 'center' }}>{log.id}</td>
               <td>{log.user ?? '-'}</td>
               <td>{log.device?.name ?? '-'}</td>
               <td>{log.device?.type ?? '-'}</td>
