@@ -17,6 +17,8 @@ class RoomResource extends JsonResource
         return [
             'id'   => $this->id,
             'name' => $this->name,
+            'description' => $this->description,
+            'devices' => DeviceResource::collection($this->devices),
             // bez datuma created i updated
         ];
     }

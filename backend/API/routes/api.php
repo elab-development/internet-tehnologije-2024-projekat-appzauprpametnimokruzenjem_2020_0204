@@ -72,3 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/logs/export/csv', [ActivityLogController::class, 'exportCsv']);
 Route::get('/logs/export/pdf', [ActivityLogController::class, 'exportPdf']);
 Route::get('/logs', [ActivityLogController::class, 'index']);
+
+Route::get('/ping', function () {
+    return response()->json(['message' => 'API radi!']);
+});

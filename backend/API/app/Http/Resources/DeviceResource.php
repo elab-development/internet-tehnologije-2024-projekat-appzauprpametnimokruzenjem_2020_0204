@@ -19,7 +19,8 @@ class DeviceResource extends JsonResource
             'name'    => $this->name,
             'type'    => $this->type,
             'status'  => $this->status ? 'on' : 'off', // sa ternarnim operatorom
-            'room' => $this->room?->name,
+            'room' => $this->room,
+            'user' => $this->user,
             // bez datuma created i updated
         ];
     }
