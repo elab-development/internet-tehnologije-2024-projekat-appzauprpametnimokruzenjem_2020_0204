@@ -5,22 +5,26 @@ import { Chart } from 'react-google-charts';
 import '../components/TableStyles.css';
 import logo from '../assets/main/logo.png';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../context/NotificationContext';
+
 
 const Admin = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user || user.role !== 'admin') {
-      navigate('/');
-    }
-  }, []);
 
   const [stats, setStats] = useState(null);
   const [chartData, setChartData] = useState([]);
   const [pieData, setPieData] = useState([]);
+
+
+  const { showNotification } = useNotification();
   
   useEffect(() => {
+
+    if (localStorage.getItem("userRole") === "admin"&&
+      localStorage.getItem("loginSuccess") === "true") {
+        showNotification("Dobro došao u admin mode! 👨‍💻");
+        localStorage.removeItem("loginSuccess");
+    }
+
     // Broj korisnika i proseci
     axiosInstance.get('/admin/stats')
       .then(res => setStats(res.data))
@@ -58,7 +62,7 @@ const Admin = () => {
         <div style={{ textAlign: 'left', marginTop: '2rem'}}>
               <img src={logo} alt="Chuwar Logo" style={{ width: '30vh', height: 'auto' }} />
         </div>
-      <h1 className="text-3xl font-bold mb-6">Admin: Čeda Veličković</h1>
+      <h1 className="text-3xl font-bold mb-6">Admin: {localStorage.getItem('userName') || 'Nepoznat korisnik'}</h1>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: '3rem', marginBottom: '40px' }}>
         <div>

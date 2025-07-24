@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from '../assets/main/logo.png';
-import WelcomePopup from '../components/WelcomePopup';
+import { useNotification } from '../context/NotificationContext';
 
 const Home = () => {
+  const { showNotification } = useNotification();
+
+  useEffect(() => {
+    if (localStorage.getItem("loginSuccess") === "true") {
+      showNotification("Dobro došao u svoj pametan dom! 🪴");
+      localStorage.removeItem("loginSuccess");
+    }
+
+    if (localStorage.getItem("registrationSuccess") === "true") {
+      showNotification("Uspešno si se registrovao! 🎉", 8000);
+      localStorage.removeItem("registrationSuccess");
+    }
+  }, []);
+
   return (
     <div style={{ textAlign: 'left', marginTop: '2rem', marginLeft: '2rem' }}>
       <img src={logo} alt="Chuwar Logo" style={{ width: '30vh', height: 'auto' }} />
-      <WelcomePopup />
     </div>
   );
 };

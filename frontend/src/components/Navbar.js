@@ -1,18 +1,32 @@
+// src/components/Navbar.js
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import logo from '../assets/main/favicon.png';
+import useIsAdmin from '../hooks/useIsAdmin';
+import { useLocation } from 'react-router-dom';
 
-const UserNavbar = () => {
+const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
+  const userName = localStorage.getItem("userName");
+  const location = useLocation();
 
   useEffect(() => {
     const handleStorageChange = () => {
       const loggedIn = localStorage.getItem("isLoggedIn") === "true";
       setIsLoggedIn(loggedIn);
+
+      const storedUser = localStorage.getItem("userRole");
+      if (storedUser) {
+        setIsAdmin(storedUser === 'admin');
+      } else {
+        setIsAdmin(false);
+      }
+
     };
 
-    handleStorageChange(); // initial check
+    handleStorageChange();
     window.addEventListener("storage", handleStorageChange);
     window.addEventListener("load", handleStorageChange);
 
@@ -21,13 +35,25 @@ const UserNavbar = () => {
       window.removeEventListener("load", handleStorageChange);
     };
   }, []);
+
+  useEffect(() => {
+  if (localStorage.getItem("justRegistrated") === "true") {
+    localStorage.removeItem("justRegistrated");
+    window.location.reload(); // Forsira refresh da se navbar osveži
+  }
+}, []);
+
   const handleLogout = () => {
     const confirmed = window.confirm("❗ Da li si siguran da želiš da se odjaviš?");
     if (confirmed) {
       localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("welcome");
-      setIsLoggedIn(false);
+      localStorage.removeItem("loginSuccess");
+      localStorage.removeItem('userName');
+      localStorage.removeItem("userRole");
+      localStorage.setItem('logoutSuccess',true);
+      // navigate("/");
       navigate("/login");
+      setIsLoggedIn(false);
     }
   };
 
@@ -40,11 +66,25 @@ const UserNavbar = () => {
       alignItems: 'center'
     }}>
       <div style={{ display: 'flex', gap: '20px' }}>
-        <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Početna</Link>
-        <Link to="/my-devices" style={{ color: '#fff', textDecoration: 'none' }}>Moji uređaji</Link>
+        {isAdmin ? (
+          <>
+            <Link to="/admin" style={{ color: '#fff', textDecoration: 'none' }}>Dashboard</Link>
+            <Link to="/devices" style={{ color: '#fff', textDecoration: 'none' }}>Uređaji</Link>
+            <Link to="/rooms" style={{ color: '#fff', textDecoration: 'none' }}>Sobe</Link>
+            <Link to="/logs" style={{ color: '#fff', textDecoration: 'none' }}>Logovi</Link>
+            <Link to="/users" style={{ color: '#fff', textDecoration: 'none' }}>Korisnici</Link>
+          </>
+        ) : (
+          <>
+            <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Početna</Link>
+            <Link to="/my-devices" style={{ color: '#fff', textDecoration: 'none' }}>Moji uređaji</Link>
+          </>
+        )}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-        
+        {isAdmin && userName && (
+          <span style={{ color: '#ffffff55'}}>Admin View | {userName}</span>
+        )}
         {isLoggedIn ? (
           <span onClick={handleLogout} style={{ color: '#fff', textDecoration: 'none', cursor: 'pointer' }}>
             Log Out
@@ -60,4 +100,4 @@ const UserNavbar = () => {
   );
 };
 
-export default UserNavbar;
+export default Navbar;

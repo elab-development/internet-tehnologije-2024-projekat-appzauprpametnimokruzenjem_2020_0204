@@ -2,8 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
+
 import MainLayout from './layout/MainLayout';
 import './index.css';
+
+import ProtectedRoute from './components/ProtectedRoute';
+import { NotificationProvider } from './context/NotificationContext';
 
 // stranice
 import Home from './pages/Home';
@@ -15,33 +19,49 @@ import Admin from './pages/Admin';
 import Login from './pages/Login';
 import MyDevices from './pages/MyDevices';
 import Register from './pages/Register';
-
-import UserNavbar from './components/UserNavbar';
-import AdminNavbar from './components/AdminNavbar';
+import Unauthorized from './pages/Unauthorized';
+import NotFound from './pages/NotFound';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const storedUser = localStorage.getItem('user');
-const isAdmin = storedUser && JSON.parse(storedUser).role === 'admin';
-
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
+    <NotificationProvider> {/*dodarni provider*/}
+      <BrowserRouter>
+        <Routes>
         <Route path="/" element={<MainLayout />}>
+
+          {/*generalne rute*/}
+          <Route path="unauthorized" element={<Unauthorized />} />
+          <Route path="*" element={<NotFound />} /> 
+
+          {/* slobodne rute */}
           <Route index element={<Home />} />
-          <Route path="admin" element={<Admin />} />
-          <Route path="devices" element={<Devices />} />
-          <Route path="rooms" element={<Rooms />} />
-          <Route path="users" element={<Users />} />
-          <Route path="logs" element={<Logs />} />
-          <Route path="my-devices" element={<MyDevices />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="my-devices" element={<MyDevices />}/>
+
+          <Route path="admin" element={
+            <ProtectedRoute element={<Admin />} allowedRoles={["admin"]} />
+          } />
+          <Route path="devices" element={
+            <ProtectedRoute element={<Devices />} allowedRoles={["admin"]} />
+          } />
+          <Route path="rooms" element={
+            <ProtectedRoute element={<Rooms />} allowedRoles={["admin"]} />
+          } />
+          <Route path="logs" element={
+            <ProtectedRoute element={<Logs />} allowedRoles={["admin"]} />
+          } />
+          <Route path="users" element={
+            <ProtectedRoute element={<Users />} allowedRoles={["admin"]} />
+          } />
+          
         </Route>
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </NotificationProvider>
   </React.StrictMode>
 );
 
