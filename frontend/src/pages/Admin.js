@@ -4,12 +4,22 @@ import axiosInstance from '../api/axios';
 import { Chart } from 'react-google-charts';
 import '../components/TableStyles.css';
 import logo from '../assets/main/logo.png';
+import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || user.role !== 'admin') {
+      navigate('/');
+    }
+  }, []);
+
   const [stats, setStats] = useState(null);
   const [chartData, setChartData] = useState([]);
   const [pieData, setPieData] = useState([]);
-
+  
   useEffect(() => {
     // Broj korisnika i proseci
     axiosInstance.get('/admin/stats')

@@ -12,19 +12,33 @@ import Rooms from './pages/Rooms';
 import Logs from './pages/Logs';
 import Users from './pages/Users';
 import Admin from './pages/Admin';
+import Login from './pages/Login';
+import MyDevices from './pages/MyDevices';
+import Register from './pages/Register';
+
+import UserNavbar from './components/UserNavbar';
+import AdminNavbar from './components/AdminNavbar';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const storedUser = localStorage.getItem('user');
+const isAdmin = storedUser && JSON.parse(storedUser).role === 'admin';
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
-          <Route path="uredjaji" element={<Devices />} />
-          <Route path="sobe" element={<Rooms />} />
-          <Route path="logovi" element={<Logs />} />
-          <Route path="korisnici" element={<Users />} />
           <Route path="admin" element={<Admin />} />
+          <Route path="devices" element={<Devices />} />
+          <Route path="rooms" element={<Rooms />} />
+          <Route path="users" element={<Users />} />
+          <Route path="logs" element={<Logs />} />
+          <Route path="my-devices" element={<MyDevices />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
         </Route>
       </Routes>
     </BrowserRouter>
