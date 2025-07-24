@@ -59,7 +59,7 @@ const Users = () => {
 
   return (
     <div className="table">
-      <h1>{selectedUserName || 'Korisnik'}</h1>
+      <h1 class="text-3xl font-bold underline">{selectedUserName || 'Korisnik'}</h1>
       <select onChange={handleUserChange} value={selectedUserId || ''}>
         {users.map(user => (
           <option key={user.id} value={user.id}>{user.name}</option>

@@ -37,6 +37,9 @@ const NotFound = () => {
       </div>
       <h1 style={titleStyle}>UPS!</h1>
       <p style={messageStyle}>Stranica nije pronađena.</p>
+      {/* <div className="background-color: rgb(34,197,94) text-white p-4 rounded shadow-lg">
+        Tailwind radi! 🍃
+      </div> */}
     </div>
   );
 };

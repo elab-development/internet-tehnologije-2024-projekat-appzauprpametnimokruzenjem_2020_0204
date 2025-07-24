@@ -12,7 +12,7 @@ const Home = () => {
     }
 
     if (localStorage.getItem("registrationSuccess") === "true") {
-      showNotification("Uspešno si se registrovao! 🎉", 8000);
+      showNotification("Uspešno si se registrovao! 🎉");
       localStorage.removeItem("registrationSuccess");
     }
   }, []);
