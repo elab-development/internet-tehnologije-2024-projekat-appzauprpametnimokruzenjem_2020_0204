@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../api/axios.js';
 import '../components/TableStyles.css';
 import Loading from '../components/Loading.jsx';
+import Button from '../components/Button.jsx';
+import emoji from '../assets/emojis/fingerprint_1fac6.png'
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -12,29 +14,14 @@ const Users = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    axiosInstance.get('/users')
-      .then(res => {
-        setUsers(res.data);
-        if (res.data.length > 0) {
-          const defaultUser = res.data[0];
-          setSelectedUserId(defaultUser.id);
-          setSelectedUserName(defaultUser.name);
-
-          return Promise.all([
-            axiosInstance.get(`/users/${defaultUser.id}/devices`),
-            axiosInstance.get(`/users/${defaultUser.id}/logs`)
-          ]);
-        }
-        return [[], []];
-      })
-      .then(([devicesRes, logsRes]) => {
-        setDevices(devicesRes?.data?.data || devicesRes?.data || []);
-        setLogs(logsRes?.data?.data || logsRes?.data || []);
-      })
-      .catch(err => console.error(err))
-      .finally(() => setLoading(false));
-  }, []);
+  setLoading(true);
+  axiosInstance.get('/users')
+    .then(res => {
+      setUsers(res.data);
+    })
+    .catch(err => console.error(err))
+    .finally(() => setLoading(false));
+}, []);
 
   const handleUserChange = async (e) => {
     const userId = e.target.value;
@@ -58,9 +45,15 @@ const Users = () => {
   };
 
   return (
-    <div className="admin-users-container">
+    <div className="admin-container">
+      <img
+                src={emoji}
+                alt="emoji"
+                className="w-25 pb-3 pt-10 object-contain"
+              />
       <h1 className="admin-users-header">{selectedUserName || 'Korisnik'}</h1>
       <select className="admin-users-select" onChange={handleUserChange} value={selectedUserId || ''}>
+        <option value="" disabled>Izaberi korisnika...</option>
         {users.map(user => (
           <option key={user.id} value={user.id}>{user.name}</option>
         ))}
@@ -69,16 +62,23 @@ const Users = () => {
 
       {/*Sekcija za preuzimanje fajlova */}
       <div className="admin-users-download-section">
-        <p className="font-bold">
+        <p>
           Preuzmi sve podatke o aktivnostima SVIH korisnika veb servisa u željenom formatu.
         </p>
         <div className="admin-users-download-buttons">
-          <a href="http://localhost:8000/api/logs/export/csv" target="_blank" rel="noopener noreferrer">
-            <button>📄 CSV</button>
-          </a>
-          <a href="http://localhost:8000/api/logs/export/pdf" target="_blank" rel="noopener noreferrer">
-            <button>📄 PDF</button>
-          </a>
+          <Button
+            text="📄 CSV"
+            href="http://localhost:8000/api/logs/export/csv"
+            target="_blank"
+            type="bg"
+          />
+
+          <Button
+            text="📄 PDF"
+            href="http://localhost:8000/api/logs/export/pdf"
+            target="_blank"
+            type="bg"
+          />
         </div>
       </div>
 
@@ -87,7 +87,7 @@ const Users = () => {
       ) : (
         <div className="admin-users-content">
           <div className="admin-users-table-container">
-            <h3>Uređaji</h3>
+            <h3 className="font-bold mb-4 mt-14">Uređaji 🪴</h3>
             <table>
               <thead>
                 <tr>
@@ -114,7 +114,7 @@ const Users = () => {
 
           {/* Right: Logs */}
           <div className="admin-users-table-container">
-            <h3>Logovi</h3>
+            <h3 className="font-bold mb-4 mt-14">Logovi 🚦</h3>
             <table>
               <thead>
                 <tr>

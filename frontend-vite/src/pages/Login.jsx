@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useNotification } from "../context/NotificationContext";
 import axiosInstance from "../utils/axiosInstance";
 import logo from "../assets/main/submark.png";
+import Button from "../components/Button";
 
 function Login() {
   const [isRegister, setIsRegister] = useState(false);
@@ -43,8 +44,8 @@ function Login() {
         localStorage.setItem("userName", res.data.user.name);
         localStorage.setItem("registrationSuccess", "true");
         localStorage.setItem("justRegistrated", "true");
-
         navigate("/");
+
       } catch (err) {
         if (err.response?.data?.errors?.email) {
           setError("Email adresa je već registrovana. 🚫");
@@ -160,12 +161,11 @@ function Login() {
             </p>
           )}
 
-          <button
-            type="submit"
-            className="form-btn"
-          >
-            {isRegister ? "Registruj se" : "Prijavi se"}
-          </button>
+          <Button
+            type="bg"
+            text={isRegister ? "Registruj se" : "Prijavi se"}
+            className="w-full mt-4"
+          />
         </form>
 
         <p className="text-center text-sm">
@@ -178,6 +178,12 @@ function Login() {
           </button>
         </p>
       </div>
+      <Button
+        text="< Početna"
+        type="wb"
+        onClick={()=> {navigate("/")}}
+        className="mt-10"
+      />
     </div>
   );
 }

@@ -15,6 +15,11 @@ const Home = () => {
       showNotification("Uspešno si se registrovao! 🎉");
       localStorage.removeItem("registrationSuccess");
     }
+    const isLogout = localStorage.getItem("logoutSuccess") === "true";
+    if (isLogout) {
+      showNotification("Vidimo se kasnije! 👋");
+      localStorage.removeItem("logoutSuccess");
+    }
   }, []);
 
   return (

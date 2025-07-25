@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../api/axios';
 import '../components/TableStyles.css';
 import Loading from '../components/Loading';
+import emoji from '../assets/emojis/gear_2699-fe0f.png'
 
 function Devices() {
   const [devices, setDevices] = useState([]);
@@ -31,32 +32,40 @@ function Devices() {
   if (loading) return <Loading/>;
 
   return (
-    <div className="table">
-      <h2 className="text-3xl font-bold mb-4">Lista Uređaja</h2>
+   <div className="admin-container">
+      <img
+          src={emoji}
+          alt="emoji"
+          className="w-25 pb-5 pt-10 object-contain"
+          />
+      <h1 className="admin-users-header mb-7">Lista uređaja</h1>
+
+      <div className="admin-users-table-container">
         <table>
-            <thead>
-                <tr>
-                <th> device ID</th>
-                <th>Naziv</th>
-                <th>Tip</th>
-                <th>Status</th>
-                <th>Soba</th>
-                <th>Vlasnik</th>
-                </tr>
-            </thead>
-            <tbody>
-                {devices.map(device => (
-                <tr key={device.id}>
-                    <td style={{ textAlign: 'center' }}>{device.id}</td>
-                    <td>{device.name}</td>
-                    <td>{device.type}</td>
-                    <td>{device.status}</td>
-                    <td>{device.room?.name ?? '-'}</td>
-                    <td>{device.room?.user?.name ?? '-'}</td>
-                </tr>
-                ))}
-            </tbody>
+          <thead>
+            <tr>
+              <th>device ID</th>
+              <th>Naziv</th>
+              <th>Tip</th>
+              <th>Status</th>
+              <th>Soba</th>
+              <th>Vlasnik</th>
+            </tr>
+          </thead>
+          <tbody>
+            {devices.map(device => (
+              <tr key={device.id}>
+                <td className="text-center">{device.id}</td>
+                <td>{device.name}</td>
+                <td>{device.type}</td>
+                <td>{device.status}</td>
+                <td>{device.room?.name ?? '-'}</td>
+                <td>{device.room?.user?.name ?? '-'}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
+      </div>
     </div>
   );
 }

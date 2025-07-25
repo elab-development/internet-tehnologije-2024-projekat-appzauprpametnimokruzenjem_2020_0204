@@ -41,7 +41,7 @@ const Notification = ({ message }) => {
       fontWeight: 'bold',
       padding: '1rem 2rem',
       borderRadius: '20px',
-      boxShadow: '10 10 5px 6px rgba(0,0,0,0.1)',
+      boxShadow: '0px 0px 20px 20px rgba(0,0,0,0.1)',
       zIndex: 1000,
       transform: slideIn ? 'translateX(0)' : 'translateX(100%)',
       opacity: fadeOut ? 0 : 1,

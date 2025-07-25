@@ -121,7 +121,7 @@ bela- F5F5F5
 
 @layer admin-page {
   .admin-container {
-    @apply min-h-screen bg-[#282828] text-[#F5F5F5] px-8 py-10 font-sans;
+    @apply min-h-screen bg-[#282828] text-[#F5F5F5] px-8 py-10;
   }
 
   .admin-header {
@@ -154,20 +154,17 @@ bela- F5F5F5
 }
 
 @layer admin-user-page {
-  .admin-users-container {
-    @apply text-[#F5F5F5] min-h-screen px-6 py-8 bg-[#282828] flex flex-col gap-6;
-  }
 
   .admin-users-header {
     @apply text-3xl font-bold mb-4;
   }
 
   .admin-users-select {
-    @apply bg-[#333] text-white px-4 py-2 rounded-md max-w-xs mb-4;
+    @apply bg-[#333] text-white px-4 py-2 rounded-2xl max-w-xs mb-4;
   }
 
   .admin-users-download-section {
-    @apply flex flex-col items-start gap-2 bg-[#333] p-4 rounded-lg shadow-md;
+    @apply flex flex-col items-start gap-2 bg-[#333] p-4 rounded-2xl shadow-md;
   }
 
   .admin-users-download-buttons {
