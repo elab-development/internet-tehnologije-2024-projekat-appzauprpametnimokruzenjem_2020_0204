@@ -24,7 +24,7 @@ class DeviceFactory extends Factory
         return [
             'name' => $this->faker->randomElement(['Svetlana', 'Borko', 'Marijana', 'Časlav', 'Vesna', 'Tanja', 'Nebojša', 'Nađa', 'Lenka', 'Žarko', 'Minja']),
             'type' => $this->faker->randomElement(['sijalica', 'ventilator', 'brava', 'senzor', 'zvučnik']),
-            'status' => $this->faker->randomElement(['uključeno', 'isključeno']),
+            'status' => $this->faker->randomElement(['on', 'off']),
             'room_id' => Room::inRandomOrder()->first()->id,
         ];
     }

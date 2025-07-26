@@ -27,7 +27,9 @@ const GlowContainer = ({ className = '', color = '', children}) => {
       onMouseLeave={glow ? handlers.current.handleMouseLeave : null}
     >
       {glow && <div ref={glowRef} className="glow-dot" style={{background}}></div>}
-      {children}
+      <div>
+        {children}
+      </div>
     </div>
   );
 };

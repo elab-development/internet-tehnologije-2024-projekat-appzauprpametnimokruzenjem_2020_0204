@@ -14,6 +14,13 @@ class UserController extends Controller
         return User::select('id', 'name')->get();
     }
 
+    public function me(Request $request)
+{
+    $user = $request->user()->load('rooms.devices');
+
+    return response()->json($user);
+}
+
     // Vrati uređaje određenog korisnika
     public function devices($id)
     {

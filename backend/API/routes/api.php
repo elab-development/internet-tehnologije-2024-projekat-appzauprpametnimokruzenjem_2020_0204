@@ -55,6 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::get('/me', [UserController::class, 'me']); // zbog my devices stranice
 
     // PROTECTED ADMIN ROUTES
     Route::middleware('role:admin')->group(function () {
@@ -82,6 +83,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
+
 // kad imam admina brišem
 Route::get('/logs/export/csv', [ActivityLogController::class, 'exportCsv']);
 Route::get('/logs/export/pdf', [ActivityLogController::class, 'exportPdf']);
@@ -90,6 +92,7 @@ Route::get('/users', [UserController::class, 'index']);
 Route::get('/admin/stats', [AdminStatsController::class, 'stats']);
 Route::get('/admin/logs-chart', [AdminStatsController::class, 'logsChart']);
 Route::get('/admin/devices-by-type', [AdminStatsController::class, 'devicesByType']);
+
 
 // test za uvezivanje UI i API
 Route::get('/ping', function () {

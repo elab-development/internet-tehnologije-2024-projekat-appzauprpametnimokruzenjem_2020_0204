@@ -53,6 +53,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Room::class);
     }
+    
     // 0-M veza prema logs
     public function actionLogs()
     {

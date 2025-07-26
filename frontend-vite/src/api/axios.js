@@ -1,11 +1,20 @@
 import axios from 'axios';
 
-const instance = axios.create({
+const axiosInstance = axios.create({
   baseURL: 'http://localhost:8000/api',
-  withCredentials: true,                
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-export default instance;
+// interceptor za dinamički rad
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default axiosInstance;
