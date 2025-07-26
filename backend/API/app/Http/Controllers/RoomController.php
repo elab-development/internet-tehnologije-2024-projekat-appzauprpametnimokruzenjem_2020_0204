@@ -62,11 +62,13 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        $room->delete();
-        return response()->json(null, 204);
-    }
+    public function destroy($id)
+{
+    $room = Room::findOrFail($id);
+    $room->delete();
+
+    return response()->json(null, 204);
+}
 
     // nested rute
     public function devices($id)

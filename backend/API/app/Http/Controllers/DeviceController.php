@@ -57,19 +57,27 @@ class DeviceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $device->update($request->all());
-        return new DeviceResource($device);
-    }
+    public function update(Request $request, $id)
+{
+    $validated = $request->validate([
+        'status' => 'required|string|in:on,off',
+    ]);
+
+    $device = Device::findOrFail($id);
+    $device->update(['status' => $validated['status']]);
+
+    return new DeviceResource($device);
+}
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        $device->delete();
-        return response()->json(null, 204);
-    }
+{
+    $device = Device::findOrFail($id);
+    $device->delete();
+
+    return response()->json(null, 204);
+}
 
 }

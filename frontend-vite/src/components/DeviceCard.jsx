@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import Modal from './Modal';
+import axiosInstance from '../api/axios';
+
 const getDeviceIcon = (type) => {
   switch (type?.toLowerCase()) {
     case 'sijalica':
@@ -15,26 +19,60 @@ const getDeviceIcon = (type) => {
   }
 };
 
-const DeviceCard = ({ device }) => {
+const DeviceCard = ({ device, onDelete, onToggleStatus }) => {
   const icon = getDeviceIcon(device.type);
-  const status = device.status === 'on' ? 'on' : 'off';
+  const [showModal, setShowModal] = useState(false);
+  const [localStatus, setLocalStatus] = useState(device.status);
+
+  const handleDelete = async () => {
+    try {
+      await axiosInstance.delete(`/devices/${device.id}`);
+      onDelete(device.id);
+    } catch (err) {
+      console.error('Greška pri brisanju uređaja:', err);
+    } finally {
+      setShowModal(false);
+    }
+  };
+
+  const handleToggleStatus = async () => {
+    const newStatus = localStatus === 'on' ? 'off' : 'on';
+    try {
+      await axiosInstance.put(`/devices/${device.id}`, { status: newStatus });
+      setLocalStatus(newStatus);
+      onToggleStatus(device.id, newStatus);
+    } catch (err) {
+      console.error('Greška pri promeni statusa:', err);
+    }
+  };
 
   return (
-    <div className="device-card group bg-white hover:bg-[#64DED2] transition-colors duration-300 p-4 rounded-xl shadow-md flex flex-col justify-between h-full">
+    <div className="device-card group bg-white hover:bg-[#64DED2] transition-colors duration-300 p-4 rounded-xl shadow-md flex flex-col justify-between h-full relative">
+      {/* Modal za potvrdu brisanja */}
+      {showModal && (
+        <Modal
+          title="Brisanje uređaja"
+          message="Jesi li siguran da želiš da obrišeš ovaj uređaj?"
+          onConfirm={handleDelete}
+          onCancel={() => setShowModal(false)}
+        />
+      )}
+
       {/* Gornji deo */}
       <div className="flex items-center justify-between mb-2">
         <span className="text-2xl group-hover:text-white">{icon}</span>
-        <span
+        <button
+          onClick={handleToggleStatus}
           className={`
             text-sm font-medium px-2 py-0.5 rounded-full
-            ${device.status === 'on'
+            ${localStatus === 'on'
               ? 'bg-green-100 text-green-700'
               : 'bg-red-100 text-red-700'}
             group-hover:bg-white group-hover:text-[#282828]
           `}
         >
-          {status}
-        </span>
+          {localStatus}
+        </button>
       </div>
 
       {/* Donji deo */}
@@ -47,7 +85,10 @@ const DeviceCard = ({ device }) => {
             {device.type}
           </p>
         </div>
-        <div className="text-lg text-gray-400 hover:text-white cursor-pointer pb-1 group-hover:text-[#326F69]">
+        <div
+          className="text-lg text-gray-400 hover:text-white cursor-pointer pb-1 group-hover:text-[#326F69]"
+          onClick={() => setShowModal(true)}
+        >
           ...
         </div>
       </div>

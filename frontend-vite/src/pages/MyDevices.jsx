@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../api/axios';
 import RoomCard from '../components/RoomCard';
+import DeviceCard from '../components/DeviceCard';
 import Button from '../components/Button';
 import AddForm from '../components/AddForm';
 import icon from '../assets/emojis/derelict-house_1f3da-fe0f.png';
@@ -11,14 +12,14 @@ const MyDevices = () => {
   const [formType, setFormType] = useState('device');
   const userName = localStorage.getItem("userName");
   const fetchRooms = async () => {
-  try {
-    const res = await axiosInstance.get('/me');
-    const userData = res.data;
-    setRooms(userData.rooms || []);
-  } catch (err) {
-    console.error('Greška pri učitavanju korisnikovih soba:', err);
-  }
-};
+    try {
+      const res = await axiosInstance.get('/me');
+      const userData = res.data;
+      setRooms(userData.rooms || []);
+    } catch (err) {
+      console.error('Greška pri učitavanju korisnikovih soba:', err);
+    }
+  };
 
   useEffect(() => {
     axiosInstance.get('/me')
@@ -27,7 +28,7 @@ const MyDevices = () => {
         setRooms(userData.rooms || []);
       })
       .catch(err => console.error('Greška pri učitavanju korisnikovih soba:', err));
-      fetchRooms();
+    fetchRooms();
   }, []);
 
   const handleAddRoom = async (roomName) => {
@@ -56,6 +57,31 @@ const MyDevices = () => {
       }));
     } catch (err) {
       console.error("Greška pri dodavanju uređaja:", err);
+    }
+  };
+
+
+
+  const handleDeleteRoom = async (roomId) => {
+    try {
+      await axiosInstance.delete(`/rooms/${roomId}`);
+      setRooms(prevRooms => prevRooms.filter(room => room.id !== roomId));
+    } catch (err) {
+      console.error('Greška prilikom brisanja sobe:', err);
+    }
+  };
+
+  const handleDeleteDevice = async (deviceId) => {
+    try {
+      await axiosInstance.delete(`/devices/${deviceId}`);
+      setRooms(prevRooms =>
+        prevRooms.map(room => ({
+          ...room,
+          devices: room.devices?.filter(device => device.id !== deviceId) || []
+        }))
+      );
+    } catch (err) {
+      console.error("Greška prilikom brisanja uređaja:", err);
     }
   };
 
@@ -127,7 +153,34 @@ const MyDevices = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {rooms.map(room => (
-            <RoomCard key={room.id} room={room} />
+            <RoomCard
+              key={room.id}
+              room={room}
+              onDeleteRoom={handleDeleteRoom}
+              onDeleteDevice={(roomId, deviceId) => {
+                setRooms(prevRooms =>
+                  prevRooms.map(r =>
+                    r.id === roomId
+                      ? { ...r, devices: r.devices.filter(d => d.id !== deviceId) }
+                      : r
+                  )
+                );
+              }}
+              onToggleStatus={(roomId, deviceId, newStatus) => {
+                setRooms(prevRooms =>
+                  prevRooms.map(r =>
+                    r.id === roomId
+                      ? {
+                        ...r,
+                        devices: r.devices.map(d =>
+                          d.id === deviceId ? { ...d, status: newStatus } : d
+                        ),
+                      }
+                      : r
+                  )
+                );
+              }}
+            />
           ))}
         </div>
       )}
