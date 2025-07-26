@@ -27,4 +27,6 @@ class Device extends Model
         return $this->belongsTo(User::class);
     }
 
+    protected $fillable = ['name', 'type', 'status', 'room_id', 'user_id'];
+
 }

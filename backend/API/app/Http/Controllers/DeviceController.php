@@ -22,17 +22,20 @@ class DeviceController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'room_id' => 'required|exists:rooms,id',
-    ]);
+            'name' => 'required|string|max:255',
+            'type' => 'required|string|in:sijalica,ventilator,brava,senzor,zvučnik',
+            'status' => 'required|string|in:on,off',
+            'room_id' => 'required|exists:rooms,id',
+        ]);
 
-    $device = Device::create([
-        'name' => $validated['name'],
-        'room_id' => $validated['room_id'],
-        'user_id' => $request->user()->id, // ovo dodeljuje aktivnog korisnika
-    ]);
+        $device = Device::create([
+            'name' => $validated['name'],
+            'type' => $validated['type'],
+            'status' => $validated['status'],
+            'room_id' => $validated['room_id'],
+        ]);
 
-    return new DeviceResource($device);
+        return new DeviceResource($device);
     }
 
     /**

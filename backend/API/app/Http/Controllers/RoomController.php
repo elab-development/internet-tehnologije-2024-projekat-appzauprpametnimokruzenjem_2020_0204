@@ -23,8 +23,16 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        $room = Room::create($request->all());
-        return new RoomResource($room);
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+    ]);
+
+    $room = Room::create([
+        'name' => $validated['name'],
+        'user_id' => $request->user()->id,
+    ]);
+
+    return new RoomResource($room);
     }
 
     /**
