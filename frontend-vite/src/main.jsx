@@ -10,7 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { NotificationProvider } from './context/NotificationContext';
 
 // stranice
-import Home from './pages/Home';
+import HomePage from './pages/HomePage';
 import Devices from './pages/Devices';
 import Rooms from './pages/Rooms';
 import Logs from './pages/Logs';
@@ -34,7 +34,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path="*" element={<NotFound />} />
 
             {/* slobodne rute */}
-            <Route index element={<Home />} />
+            <Route index element={<HomePage />} />
             {/* kasnije brisati !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
             <Route path="components" element={<App />} /> 
             <Route path="login" element={<Login />} />

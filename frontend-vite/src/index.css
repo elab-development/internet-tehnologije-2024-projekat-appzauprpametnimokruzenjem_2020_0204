@@ -23,9 +23,13 @@ bela- F5F5F5
     width: 1200px;
     height: 1200px;
     background: radial-gradient(circle at center, #64DED2 0%, rgba(100, 222, 210, 0) 70%);
-    z-index: -20;
+    z-index: -10;
     pointer-events: none;
   }
+  .rgb-white {
+    background: radial-gradient(circle at center, #b1e0db 0%, #b1e0db00 70%);
+  }
+
   .animate-pulse-bg {
     animation: pulse-gradient 4s ease-in-out infinite;
   }
