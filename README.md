@@ -26,6 +26,7 @@ Relacije su strukturirane kao:
 - 1 korisnik -> N soba
 - 1 soba -> N uređaja
 - 1 uređaj -> N akcija (logova)
+- 1 korisnik -> N akcija (logova)
 
 ---
 
