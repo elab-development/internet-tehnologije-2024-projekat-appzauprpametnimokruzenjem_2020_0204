@@ -61,8 +61,25 @@ Sistem koristi **modularnu arhitekturu** sa REST API pristupom:
 
 ---
 
-## 📁 Pokretanje projekta
+## 📁 Pokretanje projekta **(MacOS, Linux verzija)**
 
-1. Kloniraj repozitorijum
+1. Kloniranje repozitorijuma
 ```bash
 git clone https://github.com/elab-development/internet-tehnologije-2024-projekat-appzauprpametnimokruzenjem_2020_0204
+```
+
+1. Pokretanje backend-a [port:8000]
+```bash
+cd backend
+composer install
+php artisan migrate --seed
+php artisan serve
+```
+
+2. Pokretanje frontend-a [port:5173]
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
