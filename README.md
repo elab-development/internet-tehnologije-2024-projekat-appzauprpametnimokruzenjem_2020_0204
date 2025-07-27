@@ -53,9 +53,9 @@ Sistem koristi **modularnu arhitekturu** sa REST API pristupom:
 ## ⚙️ Tehnologije
 
 - **Frontend:** React, Vite, TailwindCSS, Axios
-- **Backend:** Laravel 10, Sanctum, DomPDF
+- **Backend:** Laravel 12, Sanctum, DomPDF
 - **Baza:** SQLite (lokalna)
-- **API eksterni:** OpenWeatherMap
+- **API eksterni:** OpenWeatherMap, IP-API
 - **Versioning:** Git, GitHub
 
 ---
