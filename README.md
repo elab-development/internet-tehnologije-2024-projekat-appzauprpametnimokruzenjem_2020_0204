@@ -28,6 +28,8 @@ Relacije su strukturirane kao:
 - 1 uređaj -> N akcija (logova)
 - 1 korisnik -> N akcija (logova)
 
+  <img width="492" height="457" alt="Group 17" src="https://github.com/user-attachments/assets/db8b5b62-0aaa-422a-abe4-b31eb0c4a26c" />
+
 ---
 
 ## 🧩 Modalitet rešenja
